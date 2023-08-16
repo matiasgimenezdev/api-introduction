@@ -26,14 +26,18 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        'db' => function(ContainerInterface $c){
+        'db' => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
             $db = $settings->get('db');
-            $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';port=' . $db['port'],
+            $pdo = new PDO('mysql:host='.$db['host'] . ';dbname=' . $db['dbname'] . ';port=' . $db['port'],
             $db['user'], $db['pass']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo;
+        },
+        'MovieController' => function(ContainerInterface $c){
+            $model = new \App\Model\Movie($c->get('db'));
+            return new \App\Controller\MovieController($c, $model);
         }
     ]);
 };

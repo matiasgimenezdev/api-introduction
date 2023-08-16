@@ -19,14 +19,15 @@ return function (ContainerBuilder $containerBuilder) {
                     'name' => 'slim-app',
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
-                ],
+                ], 'db' => [
+                    'host' => $_ENV['DATABASE_HOST'],
+                    'dbname' => $_ENV['DATABASE_NAME'],
+                    'user' => $_ENV['DATABASE_USER'],
+                    'pass' => $_ENV['DATABASE_PASS'],
+                    'port' => $_ENV['DATABASE_PORT'],
+                ] 
             ]);
-        }, 'db' => [
-            'host' => $_ENV['DATABASE_HOST'],
-            'dbname' => $_ENV['DATABASE_NAME'],
-            'user' => $_ENV['DATABASE_USER'],
-            'pass' => $_ENV['DATABASE_PASS'],
-            'port' => $_ENV['DATABASE_PORT'],
-        ]
+        },
+       
     ]);
 };
